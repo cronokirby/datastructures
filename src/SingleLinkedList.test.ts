@@ -1,5 +1,7 @@
-import SingleLinkedList, { EMPTY_NODE } from './SingleLinkedList';
 import fc from 'fast-check';
+import DrawGraph from './DrawGraph';
+import ID from './ID';
+import SingleLinkedList from './SingleLinkedList';
 
 test('the tail of an empty list is empty', () => {
   expect(SingleLinkedList.of().tail).toEqual(SingleLinkedList.of());
@@ -58,5 +60,12 @@ test('basic deletion works', () => {
   expect(SingleLinkedList.of(1, 2).delete(1)).toEqual(SingleLinkedList.of(2));
   expect(SingleLinkedList.of(1, 2).delete(3)).toEqual(
     SingleLinkedList.of(1, 2),
+  );
+});
+
+test('basic draw graph generation', () => {
+  const id = ID.initial();
+  expect(SingleLinkedList.of(1, 2).draw()).toEqual(
+    DrawGraph.of({ id, label: '1' }, { id: id.next(), label: '2' }),
   );
 });

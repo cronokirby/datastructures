@@ -1,11 +1,8 @@
+import ID from './ID';
+
 /**
  * Represents a unique identifier for nodes in a graph.
  *
- * This is important, especially as you move towards more free form representation
- * of graphs, like adjacency lists or matrices.
- */
-export type ID = string & { readonly __tag: unique symbol };
-
 /**
  * A node is a single object we can draw.
  *
@@ -43,11 +40,11 @@ export default class DrawGraph {
 
   /**
    * Create a new draw graph containing certain elements.
-   * 
+   *
    * @param nodes the elements to start with
    */
   static of(...nodes: Node[]): DrawGraph {
-    return new DrawGraph(nodes)
+    return new DrawGraph(nodes);
   }
 
   /**
@@ -57,6 +54,6 @@ export default class DrawGraph {
    * @param label a label to add to this node when drawing
    */
   push(...nodes: Node[]): DrawGraph {
-    return new DrawGraph([...this.nodes, ...nodes])
+    return new DrawGraph([...this.nodes, ...nodes]);
   }
 }

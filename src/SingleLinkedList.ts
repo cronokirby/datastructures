@@ -1,3 +1,6 @@
+import DrawGraph from './DrawGraph';
+import ID from './ID';
+
 type Node<T> = { tail: null } | { head: T; tail: Node<T> };
 
 // We can share a single empty list between all nodes
@@ -101,5 +104,18 @@ export default class SingleLinkedList<T> {
    */
   get tail(): SingleLinkedList<T> {
     return this.repr.tail ? new SingleLinkedList(this.repr.tail) : this;
+  }
+
+  /**
+   * Return the graph representing this list.
+   */
+  draw(): DrawGraph {
+    let graph = DrawGraph.empty();
+    let id = ID.initial();
+    for (const value of this) {
+      graph = graph.push({ id, label: `${value}` });
+      id = id.next();
+    }
+    return graph;
   }
 }
