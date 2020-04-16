@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Head from 'next/head';
 import Input from '../components/templates/Input';
+import RoughCanvas from '../components/RoughCanvas';
 
 interface ArrayInputProps {
   array: string[];
@@ -21,7 +22,7 @@ function InputCard() {
 
   return (
     <div className="relative">
-      <div className="w-1/3 lg:w-1/6 absolute left-0 bg-white m-8 px-4 py-2 rounded-md shadow-lg font-mono w-auto">
+      <div className="w-64 absolute left-0 bg-white m-8 px-4 py-2 rounded-md shadow-lg font-mono">
         <h2 className="font-bold text-sm uppercase">Linked List</h2>
         <div className="grid grid-cols-4 gap-4">
           <div className="col-span-4">
@@ -49,9 +50,8 @@ export default function Home() {
         />
       </Head>
       <main>
-        <div className="container">
-          <InputCard />
-        </div>
+        <InputCard />
+        <RoughCanvas />
       </main>
     </div>
   );
