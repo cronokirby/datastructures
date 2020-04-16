@@ -1,7 +1,11 @@
-import * as React from 'react';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
+import * as React from 'react';
 import Input from '../components/templates/Input';
-import RoughCanvas from '../components/RoughCanvas';
+
+const GraphCanvas = dynamic(() => import('../components/GraphCanvas'), {
+  ssr: false,
+});
 
 interface ArrayInputProps {
   array: string[];
@@ -51,7 +55,7 @@ export default function Home() {
       </Head>
       <main>
         <InputCard />
-        <RoughCanvas />
+        <GraphCanvas />
       </main>
     </div>
   );

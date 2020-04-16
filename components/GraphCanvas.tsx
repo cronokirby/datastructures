@@ -1,4 +1,5 @@
 import * as React from 'react';
+import rough from 'roughjs/bin/rough'
 
 function getCtx(
   el?: HTMLCanvasElement | null,
@@ -9,11 +10,14 @@ function getCtx(
   return el.getContext('2d') ?? null;
 }
 
-export default function RoughCanvas() {
+export default function GraphCanvas() {
   const ref = React.useRef<HTMLCanvasElement | null>(null);
 
   const redraw = () => {
-    const ctx = getCtx(ref.current);
+    if (!ref.current) {
+      return;
+    }
+    const ctx = ref.current.getContext('2d');
     if (!ctx) {
       return;
     }
@@ -22,6 +26,9 @@ export default function RoughCanvas() {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.fillStyle = 'green';
     ctx.fillRect(10, 10, 150, 100);
+    const rc = rough.canvas(ref.current);
+    rc.rectangle(200, 200, 100, 100);
+    rc.circle(200, 300, 40);
   };
 
   React.useEffect(() => {
