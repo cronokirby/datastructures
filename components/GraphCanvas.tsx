@@ -11,13 +11,12 @@ export default function GraphCanvas() {
       return;
     }
     drawer.reset();
-    drawer.rectangle(200, 200, 100, 100);
-    drawer.circle(200, 300, 40);
     let id = ID.initial();
     id = id.next();
-    drawer.drawNode({ id, label: 'Oh Yeah' }, 600, 400);
+    drawer.node({ id, label: 'Oh Yeah' }, 600, 400);
     id = id.next();
-    drawer.drawNode({ id, label: 'Oh Yeah' }, 400, 400);
+    drawer.node({ id, label: 'Oh Yeah' }, 400, 400);
+    drawer.arrow(400, 400, 300, 300);
   };
 
   React.useEffect(() => {

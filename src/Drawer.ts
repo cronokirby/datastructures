@@ -4,6 +4,9 @@ import { Node } from './DrawGraph';
 
 // The distance between one side of the text, and another side of the bounding box
 const NODE_PADDING = 10;
+const ARROW_TIP_ANGLE_DEG = 30;
+const ARROW_TIP_LENGTH = 30;
+const ARROW_STROKE_WIDTH = 1.5;
 
 /**
  * This allows us to easily draw elements onto a canvas
@@ -55,7 +58,6 @@ export default class Drawer {
       w: metrics.width,
       h: metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent,
     };
-    console.log('text', text, 'measured', ret);
     return ret;
   }
 
@@ -64,14 +66,33 @@ export default class Drawer {
     this.gfx.fillText(text, x, y);
   }
 
-  drawNode({ label }: Node, x: number, y: number) {
+  node({ label }: Node, x: number, y: number) {
     const { w, h } = this.measureText(label);
-    this.text(label, x, y);
-    this.rectangle(
-      x - NODE_PADDING,
-      y - NODE_PADDING,
-      w + 2 * NODE_PADDING,
-      h + 2 * NODE_PADDING,
+    this.text(label, x + NODE_PADDING, y + NODE_PADDING);
+    this.rectangle(x, y, w + 2 * NODE_PADDING, h + 2 * NODE_PADDING);
+  }
+
+  arrow(startX: number, startY: number, endX: number, endY: number) {
+    this.rc.line(startX, startY, endX, endY, {
+      strokeWidth: ARROW_STROKE_WIDTH,
+    });
+    const lineAngle = Math.atan2(endY - startY, endX - startX);
+    const arrowTipAngle = (Math.PI / 180) * ARROW_TIP_ANGLE_DEG;
+    const topAngle = Math.PI + lineAngle - arrowTipAngle;
+    const botAngle = Math.PI + lineAngle + arrowTipAngle;
+    this.rc.line(
+      endX,
+      endY,
+      endX + ARROW_TIP_LENGTH * Math.cos(topAngle),
+      endY + ARROW_TIP_LENGTH * Math.sin(topAngle),
+      { strokeWidth: ARROW_STROKE_WIDTH },
+    );
+    this.rc.line(
+      endX,
+      endY,
+      endX + ARROW_TIP_LENGTH * Math.cos(botAngle),
+      endY + ARROW_TIP_LENGTH * Math.sin(botAngle),
+      { strokeWidth: ARROW_STROKE_WIDTH },
     );
   }
 }
