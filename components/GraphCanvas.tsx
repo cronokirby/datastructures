@@ -1,8 +1,9 @@
 import * as React from 'react';
 import Drawer from '../src/Drawer';
 import ID from '../src/ID';
+import DrawGraph from '../src/DrawGraph';
 
-export default function GraphCanvas() {
+export default function GraphCanvas({ graph }: { graph: DrawGraph }) {
   const ref = React.useRef<HTMLCanvasElement | null>(null);
 
   const redraw = () => {
@@ -11,12 +12,7 @@ export default function GraphCanvas() {
       return;
     }
     drawer.reset();
-    let id = ID.initial();
-    id = id.next();
-    drawer.node({ id, label: 'Oh Yeah' }, 600, 400);
-    id = id.next();
-    drawer.node({ id, label: 'Oh Yeah' }, 400, 400);
-    drawer.arrow(400, 400, 300, 300);
+    drawer.centeredGraph(graph);
   };
 
   React.useEffect(() => {

@@ -2,6 +2,8 @@ import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import * as React from 'react';
 import Input from '../components/templates/Input';
+import DrawGraph from '../src/DrawGraph';
+import { LinkedList } from '../src/datastructures';
 
 const GraphCanvas = dynamic(() => import('../components/GraphCanvas'), {
   ssr: false,
@@ -21,8 +23,12 @@ function ArrayInput({ array, setArray }: ArrayInputProps) {
   );
 }
 
-function InputCard() {
+function InputCard({ setGraph }: { setGraph(g: DrawGraph): void }) {
   const [array, setArray] = React.useState(['1', 'a', '2']);
+
+  React.useEffect(() => {
+    setGraph(LinkedList.init(array).draw());
+  }, [array]);
 
   return (
     <div className="relative">
@@ -44,6 +50,8 @@ function InputCard() {
 }
 
 export default function Home() {
+  const [graph, setGraph] = React.useState(DrawGraph.empty());
+
   return (
     <div>
       <Head>
@@ -54,8 +62,8 @@ export default function Home() {
         />
       </Head>
       <main>
-        <InputCard />
-        <GraphCanvas />
+        <InputCard setGraph={setGraph} />
+        <GraphCanvas graph={graph} />
       </main>
     </div>
   );

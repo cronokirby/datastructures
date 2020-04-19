@@ -8,6 +8,7 @@ import SingleLinkedList from './SingleLinkedList';
  * We can also draw a representation of this data structure.
  */
 export interface DataStructure<O, S> {
+  init(elements: string[]): S;
   /**
    * Apply an operation to this data structure, returning a new version of it.
    */
@@ -33,6 +34,9 @@ export const LinkedList: DataStructure<
   LinkedListOps,
   SingleLinkedList<string>
 > = {
+  init(elements: string[]) {
+    return SingleLinkedList.of(...elements);
+  },
   draw(s) {
     return s.draw();
   },

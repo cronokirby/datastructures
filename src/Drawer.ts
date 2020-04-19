@@ -1,12 +1,13 @@
 import { RoughCanvas } from 'roughjs/bin/canvas';
 import rough from 'roughjs/bin/rough';
-import { Node } from './DrawGraph';
+import DrawGraph, { Node } from './DrawGraph';
 
 // The distance between one side of the text, and another side of the bounding box
 const NODE_PADDING = 10;
 const ARROW_TIP_ANGLE_DEG = 30;
 const ARROW_TIP_LENGTH = 30;
 const ARROW_STROKE_WIDTH = 1.5;
+const DISTANCE_BETWEEN_NODES = 50;
 
 /**
  * This allows us to easily draw elements onto a canvas
@@ -66,10 +67,13 @@ export default class Drawer {
     this.gfx.fillText(text, x, y);
   }
 
-  node({ label }: Node, x: number, y: number) {
+  node({ label }: Node, x: number, y: number): { w: number; h: number } {
     const { w, h } = this.measureText(label);
     this.text(label, x + NODE_PADDING, y + NODE_PADDING);
-    this.rectangle(x, y, w + 2 * NODE_PADDING, h + 2 * NODE_PADDING);
+    const rectW = w + 2 * NODE_PADDING;
+    const rectH = h + 2 * NODE_PADDING;
+    this.rectangle(x, y, rectW, rectH);
+    return { w: rectW, h: rectH };
   }
 
   arrow(startX: number, startY: number, endX: number, endY: number) {
@@ -94,5 +98,24 @@ export default class Drawer {
       endY + ARROW_TIP_LENGTH * Math.sin(botAngle),
       { strokeWidth: ARROW_STROKE_WIDTH },
     );
+  }
+
+  graph(graph: DrawGraph, x: number, y: number) {
+    let lastMiddle: number | undefined;
+    let lastBottom: number | undefined;
+    for (const node of graph.nodes) {
+      const { w, h } = this.node(node, x, y);
+      const middle = x + w / 2;
+      if (lastMiddle && lastBottom) {
+        this.arrow(lastMiddle, lastBottom, middle, y);
+      }
+      lastMiddle = middle;
+      lastBottom = y + h;
+      y += DISTANCE_BETWEEN_NODES + h;
+    }
+  }
+
+  centeredGraph(graph: DrawGraph) {
+    this.graph(graph, this.gfx.canvas.width / 2, DISTANCE_BETWEEN_NODES);
   }
 }
