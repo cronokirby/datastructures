@@ -12,6 +12,8 @@ export default function GraphCanvas() {
     drawer.reset();
     drawer.rectangle(200, 200, 100, 100);
     drawer.circle(200, 300, 40);
+    drawer.text('Hello World', 400, 400);
+    drawer.text('Hello Again', 400, 600);
   };
 
   React.useEffect(() => {

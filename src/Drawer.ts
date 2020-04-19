@@ -43,4 +43,9 @@ export default class Drawer {
   circle(x: number, y: number, r: number) {
     this.rc.circle(x, y, r);
   }
+
+  text(text: string, x: number, y: number) {
+    this.gfx.font = '32px ArchitectsDaughter';
+    this.gfx.fillText(text, x, y);
+  }
 }
