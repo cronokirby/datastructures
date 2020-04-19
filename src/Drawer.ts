@@ -1,5 +1,9 @@
 import { RoughCanvas } from 'roughjs/bin/canvas';
 import rough from 'roughjs/bin/rough';
+import { Node } from './DrawGraph';
+
+// The distance between one side of the text, and another side of the bounding box
+const NODE_PADDING = 10;
 
 /**
  * This allows us to easily draw elements onto a canvas
@@ -34,6 +38,7 @@ export default class Drawer {
     this.gfx.canvas.width = this.gfx.canvas.clientWidth;
     this.gfx.canvas.height = this.gfx.canvas.clientHeight;
     this.gfx.clearRect(0, 0, this.gfx.canvas.width, this.gfx.canvas.height);
+    this.gfx.font = '32px ArchitectsDaughter';
   }
 
   rectangle(x: number, y: number, w: number, h: number) {
@@ -44,8 +49,29 @@ export default class Drawer {
     this.rc.circle(x, y, r);
   }
 
+  measureText(text: string): { w: number; h: number } {
+    const metrics = this.gfx.measureText(text);
+    const ret = {
+      w: metrics.width,
+      h: metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent,
+    };
+    console.log('text', text, 'measured', ret);
+    return ret;
+  }
+
   text(text: string, x: number, y: number) {
-    this.gfx.font = '32px ArchitectsDaughter';
+    this.gfx.textBaseline = 'top';
     this.gfx.fillText(text, x, y);
+  }
+
+  drawNode({ label }: Node, x: number, y: number) {
+    const { w, h } = this.measureText(label);
+    this.text(label, x, y);
+    this.rectangle(
+      x - NODE_PADDING,
+      y - NODE_PADDING,
+      w + 2 * NODE_PADDING,
+      h + 2 * NODE_PADDING,
+    );
   }
 }
