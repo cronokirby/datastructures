@@ -25,10 +25,10 @@ export interface Node {
  * useful for the data structures, as well as operations to make it convenient to draw it.
  */
 export default class DrawGraph {
-  private readonly nodes: Node[];
+  private readonly _nodes: Node[];
 
   private constructor(nodes: Node[]) {
-    this.nodes = nodes;
+    this._nodes = nodes;
   }
 
   /**
@@ -36,6 +36,13 @@ export default class DrawGraph {
    */
   static empty(): DrawGraph {
     return new DrawGraph([]);
+  }
+
+  /**
+   * Return a list of nodes that make up this graph.
+   */
+  get nodes(): ReadonlyArray<Node> {
+    return this._nodes;
   }
 
   /**
@@ -54,6 +61,6 @@ export default class DrawGraph {
    * @param label a label to add to this node when drawing
    */
   push(...nodes: Node[]): DrawGraph {
-    return new DrawGraph([...this.nodes, ...nodes]);
+    return new DrawGraph([...this._nodes, ...nodes]);
   }
 }
