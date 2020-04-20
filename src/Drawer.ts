@@ -50,7 +50,7 @@ export default class Drawer {
   reset() {
     this.resize();
     this.gfx.clearRect(0, 0, this.gfx.canvas.width, this.gfx.canvas.height);
-    this.gfx.font = '32px serif';
+    this.gfx.font = '32px ArchitectsDaughter';
   }
 
   rectangle(x: number, y: number, w: number, h: number) {

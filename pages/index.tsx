@@ -31,7 +31,7 @@ function InputCard({ setGraph }: { setGraph(g: DrawGraph): void }) {
   }, [array]);
 
   return (
-    <div className="invisible relative">
+    <div className="relative">
       <div className="w-64 absolute left-0 bg-white m-8 px-4 py-2 rounded-md shadow-lg font-mono">
         <h2 className="font-bold text-sm uppercase">Linked List</h2>
         <div className="grid grid-cols-4 gap-4">
