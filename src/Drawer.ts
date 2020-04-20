@@ -35,14 +35,22 @@ export default class Drawer {
     return new Drawer(gfx, rc);
   }
 
+  private resize() {
+    const width = this.gfx.canvas.clientWidth;
+    const height = this.gfx.canvas.clientHeight;
+    if (this.gfx.canvas.width !== width || this.gfx.canvas.height !== height) {
+      this.gfx.canvas.width = width;
+      this.gfx.canvas.height = height;
+    }
+  }
+
   /**
    * This resets the canvas, making sure it's empty, with the right weight and height
    */
   reset() {
-    this.gfx.canvas.width = this.gfx.canvas.clientWidth;
-    this.gfx.canvas.height = this.gfx.canvas.clientHeight;
+    this.resize();
     this.gfx.clearRect(0, 0, this.gfx.canvas.width, this.gfx.canvas.height);
-    this.gfx.font = '32px ArchitectsDaughter';
+    this.gfx.font = '32px serif';
   }
 
   rectangle(x: number, y: number, w: number, h: number) {

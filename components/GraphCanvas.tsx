@@ -24,5 +24,5 @@ export default function GraphCanvas({ graph }: { graph: DrawGraph }) {
     redraw();
   });
 
-  return <canvas ref={ref} className="w-full h-screen"></canvas>;
+  return <canvas ref={ref} className="block w-full h-screen"></canvas>;
 }
